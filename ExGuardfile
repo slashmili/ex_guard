@@ -1,0 +1,7 @@
+use ExGuard.Config
+
+guard("unit-test")
+|> command("mix test")
+|> watch(~r/test\/*.exs/)
+|> watch(~r/priv\/*.js/)
+|> IO.inspect
