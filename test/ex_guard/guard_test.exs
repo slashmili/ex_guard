@@ -7,6 +7,16 @@ defmodule ExGuard.GuardTest do
     :ok
   end
 
+  test "execute a guard successfully" do
+    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "test -z ''", watch: [~r/test\/*.exs$/]}
+    assert execute(guard_struct) == {:ok, 0, "", guard_struct}
+  end
+
+  test "execute a guard unsuccessfully" do
+    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "test -z 'boo'", watch: [~r/test\/*.exs$/]}
+    assert execute(guard_struct) == {:error, 1, "", guard_struct}
+  end
+
   test "try to notify with notification :off" do
     assert notify({:ok, 0, "", %ExGuard.Guard{}}) == :off
     assert notify({:error, 1, "", %ExGuard.Guard{}}) == :off
