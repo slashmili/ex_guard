@@ -21,4 +21,18 @@ defmodule ExGuard.Config do
   def get_guard(title) do
     Agent.get(__MODULE__,  &Keyword.get(&1, String.to_atom(title)))
   end
+
+  def match_guards(path) do
+    Agent.get(__MODULE__,  fn kw ->
+      kw
+      |> Enum.map(&elem(&1, 1))
+      |> Enum.filter(&match_any?(&1, path))
+    end)
+  end
+
+  def match_any?(guard, path) do
+    guard.watch
+    |> Enum.map(&Regex.match?(&1, path))
+    |> Enum.any?
+  end
 end

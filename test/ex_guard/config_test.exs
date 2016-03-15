@@ -3,7 +3,7 @@ defmodule ExGuard.ConfigTest do
   use ExGuard.Config
 
   setup do
-    {:ok, pid} = ExGuard.Config.start_link
+    {:ok, _pid} = ExGuard.Config.start_link
     :ok
   end
 
@@ -21,5 +21,15 @@ defmodule ExGuard.ConfigTest do
     |> watch(~r/bar/)
 
     assert ExGuard.Config.get_guard("foobar") == guard_struct
+  end
+
+  test "match a path" do
+    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/test\/*.exs$/]}
+    guard("foobar")
+    |> command("mix test")
+    |> watch(~r/test\/*.exs$/)
+
+    guards = ExGuard.Config.match_guards("/home/milad/dev/ex_guard/test/ex_guard/config_test.exs")
+    assert guards == [guard_struct]
   end
 end
