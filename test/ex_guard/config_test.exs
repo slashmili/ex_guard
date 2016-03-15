@@ -24,10 +24,11 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "match a path" do
-    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/test\/*.exs$/]}
+    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/test\/*.exs$/], notification: :auto}
     guard("foobar")
     |> command("mix test")
     |> watch(~r/test\/*.exs$/)
+    |> notification(:auto)
 
     guards = ExGuard.Config.match_guards("/home/milad/dev/ex_guard/test/ex_guard/config_test.exs")
     assert guards == [guard_struct]
@@ -35,18 +36,18 @@ defmodule ExGuard.ConfigTest do
 
   test "execute a guard successfully" do
     guard_struct = %ExGuard.Guard{title: "foobar", cmd: "test -z ''", watch: [~r/test\/*.exs$/]}
-    assert execute(guard_struct) == {:ok, 0, ""}
+    assert execute(guard_struct) == {:ok, 0, "", guard_struct}
   end
 
   test "execute a guard unsuccessfully" do
     guard_struct = %ExGuard.Guard{title: "foobar", cmd: "test -z 'boo'", watch: [~r/test\/*.exs$/]}
-    assert execute(guard_struct) == {:error, 1, ""}
+    assert execute(guard_struct) == {:error, 1, "", guard_struct}
   end
 
   test "loading a ExGuardfile" do
     ExGuard.Config.load
 
-    guard_struct = %ExGuard.Guard{title: "unit-test", cmd: "mix test --color", watch: [~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i]}
+    guard_struct = %ExGuard.Guard{title: "unit-test", cmd: "mix test --color", watch: [~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i], notification: :auto}
 
     assert ExGuard.Config.get_guard("unit-test") == guard_struct
   end
