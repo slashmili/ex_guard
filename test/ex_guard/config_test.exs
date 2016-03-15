@@ -42,4 +42,12 @@ defmodule ExGuard.ConfigTest do
     guard_struct = %ExGuard.Guard{title: "foobar", cmd: "test -z 'boo'", watch: [~r/test\/*.exs$/]}
     assert execute(guard_struct) == {:error, 1, ""}
   end
+
+  test "loading a ExGuardfile" do
+    ExGuard.Config.load
+
+    guard_struct = %ExGuard.Guard{title: "unit-test", cmd: "mix test --color", watch: [~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i]}
+
+    assert ExGuard.Config.get_guard("unit-test") == guard_struct
+  end
 end
