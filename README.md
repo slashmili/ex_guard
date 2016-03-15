@@ -2,21 +2,24 @@
 
 [![Build Status](https://travis-ci.org/slashmili/ex_guard.svg?branch=master)](https://travis-ci.org/slashmili/ex_guard)
 
-**TODO: Add description**
+**NOTE: This module is experimental!**
 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
   1. Add ex_guard to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:ex_guard, "~> 0.0.1"}]
+          [{:ex_guard, git: "https://github.com/slashmili/ex_guard.git", only: :dev}]
         end
 
-  2. Ensure ex_guard is started before your application:
+  2. Create a file named `ExGuardfile` in your root mix directory:
+```elixir
+    use ExGuard.Config
 
-        def application do
-          [applications: [:ex_guard]]
-        end
+    guard("unit-test")
+    |> command("mix test --color")
+    |> watch(~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i)
+```
+  
+  3. run `mix guard` as soon as you change any file with above pattern, the test gets executed
 
