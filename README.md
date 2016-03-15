@@ -1,5 +1,7 @@
 # ExGuard
 
+[![Build Status](https://travis-ci.org/slashmili/ex_guard.svg?branch=master)](https://travis-ci.org/slashmili/ex_guard)
+
 **TODO: Add description**
 
 ## Installation
