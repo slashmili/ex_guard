@@ -12,7 +12,7 @@
           [{:ex_guard, git: "https://github.com/slashmili/ex_guard.git", only: :dev}]
         end
 
-  2. Create a file named `ExGuardfile` in your root mix directory:
+  2. Create a file named `ExGuardfile` in your root directory:
 ```elixir
     use ExGuard.Config
 
