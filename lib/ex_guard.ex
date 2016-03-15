@@ -1,0 +1,2 @@
+defmodule ExGuard do
+end
