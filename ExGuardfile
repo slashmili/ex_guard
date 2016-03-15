@@ -2,6 +2,5 @@ use ExGuard.Config
 
 guard("unit-test")
 |> command("mix test --color")
-|> watch(~r/priv\/*.js/)
-|> watch(~r/test\/*.exs$/)
+|> watch(~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i)
 |> IO.inspect

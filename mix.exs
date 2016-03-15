@@ -27,6 +27,6 @@ defmodule ExGuard.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:fs, "~> 0.9"}]
   end
 end
