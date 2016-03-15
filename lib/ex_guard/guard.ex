@@ -16,4 +16,11 @@ defmodule ExGuard.Guard do
     guard_struct = %ExGuard.Guard{guard_struct | watch: cur_watch}
     ExGuard.Config.put_guard(guard_struct.title, guard_struct)
   end
+
+  def execute(guard) do
+    case Mix.Shell.IO.cmd(guard.cmd) do
+      0 -> {:ok, 0, ""}
+      status -> {:error, status , ""}
+    end
+  end
 end
