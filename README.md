@@ -13,13 +13,12 @@
         end
 
   2. Create a file named `ExGuardfile` in your root directory:
-```elixir
-    use ExGuard.Config
+    ```elixir
+      use ExGuard.Config
 
-    guard("unit-test")
-    |> command("mix test --color")
-    |> watch(~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i)
-```
-  
+      guard("unit-test")
+      |> command("mix test --color")
+      |> watch(~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i)
+    ```
   3. run `mix guard` as soon as you change any file with above pattern, the test gets executed
 
