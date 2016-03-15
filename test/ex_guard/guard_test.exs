@@ -1,5 +1,5 @@
 defmodule ExGuard.GuardTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   use ExGuard.Config
 
   setup do
