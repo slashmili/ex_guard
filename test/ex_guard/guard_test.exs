@@ -17,13 +17,13 @@ defmodule ExGuard.GuardTest do
     assert execute(guard_struct) == {:error, 1, "", guard_struct}
   end
 
-  test "try to notify with notification :off" do
-    assert notify({:ok, 0, "", %ExGuard.Guard{}}) == :off
-    assert notify({:error, 1, "", %ExGuard.Guard{}}) == :off
+  test "try to notify with notification :auto" do
+    assert notify({:ok, 0, "", %ExGuard.Guard{title: "inside test", notification: :auto}}) == :ok
   end
 
-  test "try to notify with notification :auto and successful status" do
-    assert notify({:ok, 0, "", %ExGuard.Guard{title: "inside test", notification: :auto}}) == :ok
+  test "try to notify with notification :off and successful status" do
+    assert notify({:ok, 0, "", %ExGuard.Guard{notification: :off}}) == :off
+    assert notify({:error, 0, "", %ExGuard.Guard{notification: :off}}) == :off
   end
 
   test "try to notify with notification :auto and failed status" do

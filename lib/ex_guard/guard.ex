@@ -1,5 +1,5 @@
 defmodule ExGuard.Guard do
-  defstruct  title: "", cmd: "", watch: [], notification: :off
+  defstruct  title: "", cmd: "", watch: [], notification: :auto
 
   def guard(title) do
     guard_struct = %ExGuard.Guard{title: title}

@@ -1,6 +1,5 @@
 defmodule ExGuard.Notifier.TerminalNotifierTest do
   use ExUnit.Case
-  import ExUnit.CaptureIO
 
   alias ExGuard.Notifier.TerminalNotifier
 
