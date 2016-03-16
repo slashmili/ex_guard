@@ -35,7 +35,7 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "loading a ExGuardfile" do
-    ExGuard.Config.load
+    ExGuard.Config.load("ExGuardfile")
 
     guard_struct = %ExGuard.Guard{title: "unit-test", cmd: "mix test --color", watch: [~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i], notification: :auto}
 
