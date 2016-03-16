@@ -5,8 +5,8 @@ defmodule ExGuard.Config do
     end
   end
 
-  def load do
-    Code.load_file("ExGuardfile")
+  def load(config_file) do
+    Code.load_file(config_file)
   end
 
   def start_link do
