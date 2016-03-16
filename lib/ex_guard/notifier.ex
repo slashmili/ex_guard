@@ -17,14 +17,18 @@ defmodule ExGuard.Notifier do
 
   defp content_image(status) do
     case status do
-      :ok -> "priv/icons/Success.icns"
-      :error -> "priv/icons/Failed.icns"
-      :pending -> "priv/icons/Failed.icns"
+      :ok -> "#{base_dir}/priv/icons/Success.icns"
+      :error -> "#{base_dir}/priv/icons/Failed.icns"
+      :pending -> "#{base_dir}/priv/icons/Failed.icns"
       _ -> ""
     end
   end
 
   defp get_icon do
-    "priv/icons/Guard.icns"
+    "#{base_dir}/priv/icons/Guard.icns"
+  end
+
+  defp base_dir do
+    "#{__DIR__}/../.."
   end
 end
