@@ -38,9 +38,9 @@ defmodule ExGuard.Guard do
     :off
   end
   def notify({:ok, status_code, message, %ExGuard.Guard{notification: :auto} = guard}) do
-    ExGuard.Notifier.notify(title: guard.title, message: "successfully executed")
+    ExGuard.Notifier.notify(title: guard.title, message: "successfully executed", status: :ok)
   end
   def notify({:error, status_code, message, %ExGuard.Guard{notification: :auto} = guard}) do
-    ExGuard.Notifier.notify(title: guard.title, message: "failed to execute")
+    ExGuard.Notifier.notify(title: guard.title, message: "failed to execute", status: :error)
   end
 end
