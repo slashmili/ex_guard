@@ -10,9 +10,9 @@ defmodule ExGuard.Notifier.TerminalNotifier do
   end
 
   def available? do
-    case Mix.Shell.IO.cmd("which terminal-notifier") do
-      0 -> true
-      _ -> false
+    case System.cmd("which", ["terminal-notifier"]) do
+      {_, 0} -> true
+      {_, _} -> false
     end
   end
 end
