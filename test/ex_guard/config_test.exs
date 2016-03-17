@@ -55,6 +55,16 @@ defmodule ExGuard.ConfigTest do
     assert guards == [{guard_struct, ["test/models/elink_test.exs"]}]
   end
 
+  test "doesn't match with path" do
+    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/test\/*.exs$/], notification: :off}
+    guard("foobar")
+    |> command("mix test")
+    |> watch(~r/test\/*.exs$/)
+    |> notification(:off)
+
+    guards = ExGuard.Config.match_guards("/home/milad/dev/ex_guard/mix.lock")
+    assert guards == []
+  end
 
   test "loading a ExGuardfile" do
     ExGuard.Config.load("test/sample_ExGuardfile")
