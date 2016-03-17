@@ -1,13 +1,19 @@
 defmodule ExGuard.Mixfile do
   use Mix.Project
 
+  @version "0.0.1"
+
   def project do
     [app: :ex_guard,
-     version: "0.0.1",
+     version: @version,
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps,
+
+     name: "ExGuard",
+     docs: [source_ref: "#{@version}", main: "Mix.Tasks.Guard", logo: "logo-white.png"],
+     source_url: "https://github.com/slashmili/ex_guard",]
   end
 
   # Configuration for the OTP application
@@ -27,6 +33,8 @@ defmodule ExGuard.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:fs, "~> 0.9"}]
+    [{:fs, "~> 0.9"},
+     {:ex_doc, "~> 0.11.4", only: :dev},
+     {:earmark, "~> 0.2.1", only: :dev}]
   end
 end

@@ -1,4 +1,5 @@
 defmodule ExGuard.Notifier.TerminalNotifier do
+  @moduledoc false
   def notify(opts) do
     opts
     |> prepare_cmd
