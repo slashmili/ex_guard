@@ -26,13 +26,37 @@ defmodule ExGuard.Config do
     Agent.get(__MODULE__,  fn kw ->
       kw
       |> Enum.map(&elem(&1, 1))
-      |> Enum.filter(&match_any?(&1, path))
+      |> Enum.map(fn (g) -> {g, first_matched_files(g, path)} end)
+      |> Enum.filter(fn (t) -> elem(t, 1) != nil end)
     end)
   end
 
-  def match_any?(guard, path) do
+  defp first_matched_files(guard, path) do
     guard.watch
-    |> Enum.map(&Regex.match?(&1, path))
-    |> Enum.any?
+    |> Enum.filter(&eval_watch(&1, path))
+    |> List.first
+    |> execute_pattern(path)
+  end
+
+  defp eval_watch({pattern = %Regex{}, func}, path) when is_function(func) do
+    eval_watch(pattern, path)
+  end
+  defp eval_watch(pattern = %Regex{}, path) do
+    Regex.match?(pattern, path)
+  end
+
+  defp execute_pattern(nil, _path) do
+    nil
+  end
+  defp execute_pattern(%Regex{}, _path) do
+    []
+  end
+  defp execute_pattern({pattern = %Regex{}, func}, path) when is_function(func) do
+    matched_name = Regex.named_captures(pattern, path)
+    func.(matched_name)
+    file_names = pattern
+                  |> Regex.named_captures(path)
+                  |> func.()
+    List.flatten([file_names] ++ [])
   end
 end

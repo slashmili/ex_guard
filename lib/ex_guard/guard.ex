@@ -27,8 +27,11 @@ defmodule ExGuard.Guard do
   end
 
 
-  def execute(guard) do
-    case Mix.Shell.IO.cmd(guard.cmd) do
+  def execute({guard, files}) do
+    arg = Enum.join(files, " ")
+    cmd = String.strip("#{guard.cmd} #{arg}")
+    IO.puts "ex_guard is executing #{cmd}"
+    case Mix.Shell.IO.cmd(cmd) do
       0 -> {:ok, 0, "", guard}
       status -> {:error, status , "", guard}
     end
