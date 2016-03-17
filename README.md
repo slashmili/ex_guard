@@ -1,5 +1,8 @@
 # ExGuard
 
+![ExGuard](https://github.com/slashmili/ex_guard/raw/master/logo.png)
+
+
 [![Build Status](https://travis-ci.org/slashmili/ex_guard.svg?branch=master)](https://travis-ci.org/slashmili/ex_guard)
 [![Deps Status](https://beta.hexfaktor.org/badge/all/github/slashmili/ex_guard.svg)](https://beta.hexfaktor.org/github/slashmili/ex_guard)
 
