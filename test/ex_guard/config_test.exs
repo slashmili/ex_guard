@@ -56,7 +56,6 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "doesn't match with path" do
-    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/test\/*.exs$/], notification: :off}
     guard("foobar")
     |> command("mix test")
     |> watch(~r/test\/*.exs$/)
@@ -65,6 +64,27 @@ defmodule ExGuard.ConfigTest do
     guards = ExGuard.Config.match_guards("/home/milad/dev/ex_guard/mix.lock")
     assert guards == []
   end
+
+  test "watches on a dir" do
+    guard("foobar")
+    |> command("mix test")
+    |> watch("assets/")
+    |> notification(:off)
+
+    guards = ExGuard.Config.match_guards("/home/milad/dev/elide/assets/js/foo.js")
+    assert guards == []
+  end
+
+  test "watches on a list of files" do
+    guard("foobar")
+    |> command("mix test")
+    |> watch(["assets/", "mix.exs"])
+    |> notification(:off)
+
+    guards = ExGuard.Config.match_guards("/home/milad/dev/elide/mix.exs")
+    assert guards == []
+  end
+
 
   test "loading a ExGuardfile" do
     ExGuard.Config.load("test/sample_ExGuardfile")

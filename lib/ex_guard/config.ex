@@ -66,6 +66,14 @@ defmodule ExGuard.Config do
   defp eval_watch(pattern = %Regex{}, path) do
     Regex.match?(pattern, path)
   end
+  defp eval_watch(patterns, path) when is_list(patterns) do
+    patterns
+    |> Enum.map(&eval_watch(&1, path))
+    |> Enum.any?
+  end
+  defp eval_watch(pattern, path) when is_binary(pattern) do
+    String.contains?(pattern, path)
+  end
 
   defp execute_pattern(nil, _path) do
     nil
