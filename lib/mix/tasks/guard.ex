@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Guard do
   ExGuard automates various tasks by running custom rules whenever file or directories are modified.
 
   ## Usage
-      usage: mix guard [--config=<file>]
+      usage: mix guard [--config=ExGuardfile]
       help: mix help guard
 
   ## Installation
@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Guard do
   add `ex_guard` to `mix.exs`
 
       def deps do
-        [{:ex_guard, git: "https://github.com/slashmili/ex_guard.git", only: :dev}]
+        [{:ex_guard, "~> 0.0.3"}]
       end
 
 
@@ -20,7 +20,7 @@ defmodule Mix.Tasks.Guard do
 
       guard("unit-test")
       |> command("mix test --color")
-      |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
+      |> watch(~r{\\.(erl|ex|exs|eex|xrl|yrl)\\z}i)
 
   Run `mix guard` and happy coding.
 

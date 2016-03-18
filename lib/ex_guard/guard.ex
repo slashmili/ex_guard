@@ -4,7 +4,7 @@ defmodule ExGuard.Guard do
 
       guard("test")
       |> command("mix text --color")
-      |> watch(~r{\.(ex|exs)$})
+      |> watch(~r{\\.(ex|exs)$})
       |> notification(:auto)
   """
 
@@ -30,10 +30,10 @@ defmodule ExGuard.Guard do
   Sets watch pattern for given guard config.
 
   To watch all Elixir and Erlang files set:
-      watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
+      watch(~r{\\.(erl|ex|exs|eex|xrl|yrl)\\z}i)
 
   To only execute the command for specific files use:
-      watch({~r{lib/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#\{m["dir"]}/#\{m["file"]}_test.exs" end})
+      watch({~r{lib/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#\\{m["dir"]}/#\\{m["file"]}_test.exs" end})
   """
   def watch(guard_struct, watch) do
     cur_watch = guard_struct.watch ++ [watch]
