@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Guard do
   add `ex_guard` to `mix.exs`
 
       def deps do
-        [{:ex_guard, "~> 0.0.3"}]
+        [{:ex_guard, "~> 0.0.4"}]
       end
 
 
@@ -21,6 +21,7 @@ defmodule Mix.Tasks.Guard do
       guard("unit-test")
       |> command("mix test --color")
       |> watch(~r{\\.(erl|ex|exs|eex|xrl|yrl)\\z}i)
+      |> ignore(~r/priv/)
 
   Run `mix guard` and happy coding.
 

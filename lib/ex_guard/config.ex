@@ -48,30 +48,35 @@ defmodule ExGuard.Config do
     Agent.get(__MODULE__,  fn kw ->
       kw
       |> Enum.map(&elem(&1, 1))
+      |> Enum.filter(fn (g) -> path_ignored?(g, path) != true end)
       |> Enum.map(fn (g) -> {g, first_matched_files(g, path)} end)
       |> Enum.filter(fn (t) -> elem(t, 1) != nil end)
     end)
   end
 
+  defp path_ignored?(guard, path) do
+    path_match?(guard.ignore, path)
+  end
+
   defp first_matched_files(guard, path) do
     guard.watch
-    |> Enum.filter(&eval_watch(&1, path))
+    |> Enum.filter(&path_match?(&1, path))
     |> List.first
     |> execute_pattern(path)
   end
 
-  defp eval_watch({pattern = %Regex{}, func}, path) when is_function(func) do
-    eval_watch(pattern, path)
+  defp path_match?({pattern = %Regex{}, func}, path) when is_function(func) do
+    path_match?(pattern, path)
   end
-  defp eval_watch(pattern = %Regex{}, path) do
+  defp path_match?(pattern = %Regex{}, path) do
     Regex.match?(pattern, path)
   end
-  defp eval_watch(patterns, path) when is_list(patterns) do
+  defp path_match?(patterns, path) when is_list(patterns) do
     patterns
-    |> Enum.map(&eval_watch(&1, path))
+    |> Enum.map(&path_match?(&1, path))
     |> Enum.any?
   end
-  defp eval_watch(pattern, path) when is_binary(pattern) do
+  defp path_match?(pattern, path) when is_binary(pattern) do
     String.contains?(pattern, path)
   end
 

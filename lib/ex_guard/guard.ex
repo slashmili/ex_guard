@@ -8,7 +8,7 @@ defmodule ExGuard.Guard do
       |> notification(:auto)
   """
 
-  defstruct  title: "", cmd: "", watch: [], notification: :auto
+  defstruct  title: "", cmd: "", watch: [], notification: :auto, ignore: []
 
   @doc """
   Creates ExGuard config.
@@ -38,6 +38,17 @@ defmodule ExGuard.Guard do
   def watch(guard_struct, watch) do
     cur_watch = guard_struct.watch ++ [watch]
     guard_struct = %ExGuard.Guard{guard_struct | watch: cur_watch}
+    ExGuard.Config.put_guard(guard_struct.title, guard_struct)
+  end
+
+  @doc """
+  It can be used to exclude files and directories from the set of files being watched.
+
+      ignore(~r/\\.txt$/)
+  """
+  def ignore(guard_struct, ignore_rule) do
+    cur_ignore_rule = guard_struct.ignore ++ [ignore_rule]
+    guard_struct = %ExGuard.Guard{guard_struct | ignore: cur_ignore_rule}
     ExGuard.Config.put_guard(guard_struct.title, guard_struct)
   end
 

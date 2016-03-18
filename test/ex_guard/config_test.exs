@@ -14,11 +14,12 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "add extra settings" do
-    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/foo/, ~r/bar/]}
+    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/foo/, ~r/bar/], ignore: [~r/foo/]}
     guard("foobar")
     |> command("mix test")
     |> watch(~r/foo/)
     |> watch(~r/bar/)
+    |> ignore(~r/foo/)
 
     assert ExGuard.Config.get_guard("foobar") == guard_struct
   end
@@ -85,6 +86,15 @@ defmodule ExGuard.ConfigTest do
     assert guards == []
   end
 
+  test "shouldn't match beacuse of path is ignored" do
+    guard("foobar")
+    |> command("mix test")
+    |> watch(~r/test\/*.exs$/)
+    |> ignore(~r/ignored_dir/)
+
+    guards = ExGuard.Config.match_guards("/home/milad/dev/ex_guard/test/ex_guard/ignored_dir/config_test.exs")
+    assert guards == []
+  end
 
   test "loading a ExGuardfile" do
     ExGuard.Config.load("test/sample_ExGuardfile")
