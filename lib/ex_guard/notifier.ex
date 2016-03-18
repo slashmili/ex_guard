@@ -1,9 +1,23 @@
 defmodule ExGuard.Notifier do
+  @moduledoc """
+  Notify given message
+  """
+
   @notifiers [
     ExGuard.Notifier.TerminalTitle,
     ExGuard.Notifier.TerminalNotifier
   ]
 
+  @doc """
+  Notifies message through available notifiers.
+
+      ExGuard.Notifier.notify(title: "Test", message: "hello", status: :ok)
+
+  `:status` can be these values:
+    - `:ok`
+    - `:error`
+    - `:pending`
+  """
   def notify(opts) do
     opts = opts
       |> Keyword.put(:content_image, content_image(opts[:status]))
