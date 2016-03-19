@@ -5,6 +5,8 @@ defmodule ExGuard do
   """
 
   use GenServer
+  alias ExGuard.Guard
+  alias ExGuard.Config
 
   @doc false
   def start_link do
@@ -24,7 +26,7 @@ defmodule ExGuard do
   def handle_info({_pid, {:fs, :file_event}, {path, _event}}, state) do
     path
     |> to_string
-    |> ExGuard.Config.match_guards
+    |> Config.match_guards
     |> execute_guards
     {:noreply, state}
   end
@@ -32,7 +34,7 @@ defmodule ExGuard do
   @doc false
   def execute_guards(guards) do
     guards
-    |> Enum.map(&ExGuard.Guard.execute(&1))
-    |> Enum.each(&ExGuard.Guard.notify(&1))
+    |> Enum.map(&Guard.execute(&1))
+    |> Enum.each(&Guard.notify(&1))
   end
 end

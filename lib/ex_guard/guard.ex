@@ -8,7 +8,10 @@ defmodule ExGuard.Guard do
       |> notification(:auto)
   """
 
-  defstruct  title: "", cmd: "", watch: [], notification: :auto, ignore: [], options: []
+  alias ExGuard.Notifier
+  alias ExGuard.Config
+  defstruct  title: "", cmd: "", watch: [],
+             notification: :auto, ignore: [], options: []
 
   @doc """
   Creates ExGuard config.
@@ -21,7 +24,7 @@ defmodule ExGuard.Guard do
   """
   def guard(title, opts \\ []) do
     guard_struct = %ExGuard.Guard{title: title, options: opts}
-    ExGuard.Config.put_guard(title, guard_struct)
+    Config.put_guard(title, guard_struct)
   end
 
   @doc """
@@ -32,7 +35,7 @@ defmodule ExGuard.Guard do
   """
   def command(guard_struct, cmd) do
     guard_struct = %ExGuard.Guard{guard_struct | cmd: cmd}
-    ExGuard.Config.put_guard(guard_struct.title, guard_struct)
+    Config.put_guard(guard_struct.title, guard_struct)
   end
 
   @doc ~S"""
@@ -46,10 +49,10 @@ defmodule ExGuard.Guard do
       guard("execute specific tests")
       |> watch({~r{lib/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#{m["dir"]}/#{m["file"]}_test.exs" end})
   """
-  def watch(guard_struct, watch) do
-    cur_watch = guard_struct.watch ++ [watch]
+  def watch(guard_struct, pattern) do
+    cur_watch = guard_struct.watch ++ [pattern]
     guard_struct = %ExGuard.Guard{guard_struct | watch: cur_watch}
-    ExGuard.Config.put_guard(guard_struct.title, guard_struct)
+    Config.put_guard(guard_struct.title, guard_struct)
   end
 
   @doc """
@@ -61,7 +64,7 @@ defmodule ExGuard.Guard do
   def ignore(guard_struct, ignore_rule) do
     cur_ignore_rule = guard_struct.ignore ++ [ignore_rule]
     guard_struct = %ExGuard.Guard{guard_struct | ignore: cur_ignore_rule}
-    ExGuard.Config.put_guard(guard_struct.title, guard_struct)
+    Config.put_guard(guard_struct.title, guard_struct)
   end
 
   @doc """
@@ -77,11 +80,11 @@ defmodule ExGuard.Guard do
   """
  def notification(guard_struct, :auto) do
     guard_struct = %ExGuard.Guard{guard_struct | notification: :auto}
-    ExGuard.Config.put_guard(guard_struct.title, guard_struct)
+    Config.put_guard(guard_struct.title, guard_struct)
   end
   def notification(guard_struct, :off) do
     guard_struct = %ExGuard.Guard{guard_struct | notification: :off}
-    ExGuard.Config.put_guard(guard_struct.title, guard_struct)
+    Config.put_guard(guard_struct.title, guard_struct)
   end
 
 
@@ -90,17 +93,17 @@ defmodule ExGuard.Guard do
 
   If files is a list, append them to guard.cmd and executes it.
   """
-  def execute({guard, files}) do
+  def execute({guard_config, files}) do
     arg = Enum.join(files, " ")
-    cmd = String.strip("#{guard.cmd} #{arg}")
+    cmd = String.strip("#{guard_config.cmd} #{arg}")
     IO.puts "ex_guard is executing #{cmd}"
     case Mix.Shell.IO.cmd(cmd) do
-      0 -> {:ok, 0, "", guard}
-      status -> {:error, status , "", guard}
+      0 -> {:ok, 0, "", guard_config}
+      status -> {:error, status , "", guard_config}
     end
   end
-  def execute(guard) do
-    execute({guard, []})
+  def execute(guard_config) do
+    execute({guard_config, []})
   end
 
   @doc """
@@ -109,10 +112,16 @@ defmodule ExGuard.Guard do
   def notify({_, _, _, %ExGuard.Guard{notification: :off}}) do
     :off
   end
-  def notify({:ok, _status_code, _message, %ExGuard.Guard{notification: :auto} = guard}) do
-    ExGuard.Notifier.notify(title: guard.title, message: "successfully executed", status: :ok)
+  def notify({:ok, _status_code, _message, %ExGuard.Guard{notification: :auto} = guard_config}) do
+    Notifier.notify(
+      title: guard_config.title,
+      message: "successfully executed",
+      status: :ok)
   end
-  def notify({:error, _status_code, _message, %ExGuard.Guard{notification: :auto} = guard}) do
-    ExGuard.Notifier.notify(title: guard.title, message: "failed to execute", status: :error)
+  def notify({:error, _status_code, _message, %ExGuard.Guard{notification: :auto} = guard_config}) do
+    Notifier.notify(
+      title: guard_config.title,
+      message: "failed to execute",
+      status: :error)
   end
 end

@@ -40,7 +40,7 @@ defmodule Mix.Tasks.Guard do
 
   def run(args) do
     case OptionParser.parse(args) do
-      {[config: config_file], _, _ } -> execute(config_file)
+      {[config: config_file], _, _} -> execute(config_file)
       {[], [], []} -> execute("ExGuardfile")
       _ ->
         IO.puts "invalid option, try 'mix help guard'"
