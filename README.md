@@ -5,7 +5,7 @@
 
 [![Build Status](https://travis-ci.org/slashmili/ex_guard.svg?branch=master)](https://travis-ci.org/slashmili/ex_guard)
 [![Hex.pm](https://img.shields.io/hexpm/v/ex_guard.svg)](https://hex.pm/packages/ex_guard)
-[![Docs](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](http://slashmili.github.io/ex_guard)
+[![Docs](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://hexdocs.pm/ex_guard/)
 [![Hex.pm](https://img.shields.io/hexpm/dt/ex_guard.svg)](https://hex.pm/packages/ex_guard)
 [![Deps Status](https://beta.hexfaktor.org/badge/all/github/slashmili/ex_guard.svg)](https://beta.hexfaktor.org/github/slashmili/ex_guard)
 [![Hex.pm](https://img.shields.io/hexpm/l/ex_guard.svg)]()
