@@ -16,7 +16,7 @@
   1. Add ex_guard to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:ex_guard, "~> 0.9.0"}]
+          [{:ex_guard, "~> 0.9.0", only: :dev}]
         end
 
   2. Create a file named `ExGuardfile` in your root directory:
