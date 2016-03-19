@@ -29,6 +29,11 @@ defmodule Mix.Tasks.Guard do
 
   [Check out here for more fine-grained configs](https://hexdocs.pm/ex_guard/ExGuard.Guard.html).
 
+  ## Notifications
+
+  Notify the result of execution through:
+    * [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html)
+    * [Terminal Notifier](https://github.com/julienXX/terminal-notifier) (mac only)
   """
 
   def run(args) do
@@ -47,4 +52,5 @@ defmodule Mix.Tasks.Guard do
     ExGuard.Config.load(config_file)
     :timer.sleep :infinity
   end
+
 end
