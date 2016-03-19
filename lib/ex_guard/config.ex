@@ -35,7 +35,11 @@ defmodule ExGuard.Config do
   Returns agent based on guard title
   """
   def get_guard(title) do
-    Agent.get(__MODULE__,  &Keyword.get(&1, String.to_atom(title)))
+    Agent.get(__MODULE__, &Keyword.get(&1, String.to_atom(title)))
+  end
+
+  def get_guards do
+    Agent.get(__MODULE__, &Keyword.values(&1))
   end
 
   @doc """

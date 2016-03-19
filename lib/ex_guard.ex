@@ -25,8 +25,14 @@ defmodule ExGuard do
     path
     |> to_string
     |> ExGuard.Config.match_guards
+    |> execute_guards
+    {:noreply, state}
+  end
+
+  @doc false
+  def execute_guards(guards) do
+    guards
     |> Enum.map(&ExGuard.Guard.execute(&1))
     |> Enum.each(&ExGuard.Guard.notify(&1))
-    {:noreply, state}
   end
 end

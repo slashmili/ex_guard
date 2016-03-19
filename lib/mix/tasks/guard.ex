@@ -36,6 +36,8 @@ defmodule Mix.Tasks.Guard do
     * [Terminal Notifier](https://github.com/julienXX/terminal-notifier) (mac only)
   """
 
+  alias ExGuard.Config
+
   def run(args) do
     case OptionParser.parse(args) do
       {[config: config_file], _, _ } -> execute(config_file)
@@ -47,9 +49,15 @@ defmodule Mix.Tasks.Guard do
   end
 
   def execute(config_file) do
-    ExGuard.Config.start_link
+    Config.start_link
     ExGuard.start_link
-    ExGuard.Config.load(config_file)
+
+    Config.load(config_file)
+
+    Config.get_guards
+    |> Enum.filter(fn(g) -> g.options[:run_on_start] end)
+    |> ExGuard.execute_guards
+
     :timer.sleep :infinity
   end
 

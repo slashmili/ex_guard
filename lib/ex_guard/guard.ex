@@ -8,15 +8,19 @@ defmodule ExGuard.Guard do
       |> notification(:auto)
   """
 
-  defstruct  title: "", cmd: "", watch: [], notification: :auto, ignore: []
+  defstruct  title: "", cmd: "", watch: [], notification: :auto, ignore: [], options: []
 
   @doc """
   Creates ExGuard config.
 
       guard("test")
+
+  If you want to run the command on start set `:run_on_start` option
+
+      guard("test", run_on_start: true)
   """
-  def guard(title) do
-    guard_struct = %ExGuard.Guard{title: title}
+  def guard(title, opts \\ []) do
+    guard_struct = %ExGuard.Guard{title: title, options: opts}
     ExGuard.Config.put_guard(title, guard_struct)
   end
 
@@ -94,6 +98,9 @@ defmodule ExGuard.Guard do
       0 -> {:ok, 0, "", guard}
       status -> {:error, status , "", guard}
     end
+  end
+  def execute(guard) do
+    execute({guard, []})
   end
 
   @doc """
