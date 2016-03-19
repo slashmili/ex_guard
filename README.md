@@ -27,4 +27,5 @@
       |> command("mix test --color")
       |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
     ```
+    Look at [ExGuardfile](https://github.com/slashmili/ex_guard/blob/master/ExGuardfile) for more fine-grained config
   3. run `mix guard` as soon as you change any file with above pattern, the test gets executed
