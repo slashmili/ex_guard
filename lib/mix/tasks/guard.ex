@@ -58,6 +58,7 @@ defmodule Mix.Tasks.Guard do
     |> Enum.filter(fn(g) -> g.options[:run_on_start] end)
     |> ExGuard.execute_guards
 
+    IO.puts "ExGuard is watching your back ..."
     :timer.sleep :infinity
   end
 
