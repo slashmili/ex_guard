@@ -27,7 +27,9 @@ defmodule ExGuard.Config do
   Puts guard into agent
   """
   def put_guard(title, guard_struct) do
-    Agent.update(__MODULE__, &Keyword.put(&1, String.to_atom(title), guard_struct))
+    Agent.update(
+      __MODULE__,
+      &Keyword.put(&1, String.to_atom(title), guard_struct))
     guard_struct
   end
 
