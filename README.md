@@ -1,5 +1,7 @@
 # ExGuard
 
+ExGuard is a mix command to handle events on file system modifications, ExGuard heavily borrowed ideas/art works from [Guard](https://github.com/guard/guard)
+
 ![ExGuard](https://github.com/slashmili/ex_guard/raw/master/logo.png)
 
 
@@ -11,7 +13,7 @@
 [![Hex.pm](https://img.shields.io/hexpm/l/ex_guard.svg)]()
 
 
-## Installation
+## Usage
 
   1. Add ex_guard to your list of dependencies in `mix.exs`:
 
@@ -29,3 +31,6 @@
     ```
     Look at [ExGuardfile](https://github.com/slashmili/ex_guard/blob/master/ExGuardfile) for more fine-grained config
   3. run `mix guard` as soon as you change any file with above pattern, the test gets executed
+
+  
+
