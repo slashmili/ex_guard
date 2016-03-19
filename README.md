@@ -21,7 +21,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
           [{:ex_guard, "~> 0.9.0", only: :dev}]
         end
 
-  2. Create a file named `ExGuardfile` in your root directory:
+  2. Create a file named `ExGuardfile` in your root application directory:
     ```elixir
       use ExGuard.Config
 
