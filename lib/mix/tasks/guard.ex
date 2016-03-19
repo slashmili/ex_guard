@@ -15,6 +15,8 @@ defmodule Mix.Tasks.Guard do
       end
 
 
+  ## Sample config file
+
   Create ExGuardfile in your root mix directory:
       use ExGuard.Config
 
@@ -25,7 +27,8 @@ defmodule Mix.Tasks.Guard do
 
   Run `mix guard` and happy coding.
 
-  [Read more](https://github.com/slashmili/ex_guard).
+  [Check out here for more fine-grained configs](https://hexdocs.pm/ex_guard/ExGuard.Guard.html).
+
   """
 
   def run(args) do

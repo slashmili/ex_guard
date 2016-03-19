@@ -12,6 +12,8 @@ defmodule ExGuard.Guard do
 
   @doc """
   Creates ExGuard config.
+
+      guard("test")
   """
   def guard(title) do
     guard_struct = %ExGuard.Guard{title: title}
@@ -20,20 +22,25 @@ defmodule ExGuard.Guard do
 
   @doc """
   Sets command for given guard config.
+
+      guard("test")
+      |> command("mix text --color")
   """
   def command(guard_struct, cmd) do
     guard_struct = %ExGuard.Guard{guard_struct | cmd: cmd}
     ExGuard.Config.put_guard(guard_struct.title, guard_struct)
   end
 
-  @doc """
+  @doc ~S"""
   Sets watch pattern for given guard config.
 
   To watch all Elixir and Erlang files set:
-      watch(~r{\\.(erl|ex|exs|eex|xrl|yrl)\\z}i)
+      guard("Elixir/Erlang files")
+      |> watch(~r{\\.(erl|ex|exs|eex|xrl|yrl)\\z}i)
 
   To only execute the command for specific files use:
-      watch({~r{lib/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#\\{m["dir"]}/#\\{m["file"]}_test.exs" end})
+      guard("execute specific tests")
+      |> watch({~r{lib/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#{m["dir"]}/#{m["file"]}_test.exs" end})
   """
   def watch(guard_struct, watch) do
     cur_watch = guard_struct.watch ++ [watch]
@@ -44,7 +51,8 @@ defmodule ExGuard.Guard do
   @doc """
   It can be used to exclude files and directories from the set of files being watched.
 
-      ignore(~r/\\.txt$/)
+      guard("text files")
+      |> ignore(~r/\\.txt$/)
   """
   def ignore(guard_struct, ignore_rule) do
     cur_ignore_rule = guard_struct.ignore ++ [ignore_rule]
@@ -54,6 +62,14 @@ defmodule ExGuard.Guard do
 
   @doc """
   Sets notification for given guard config.
+  By default notification is on.
+
+      guard("test")
+      |> notification(:auto)
+
+  To turn off the notification set it to `:off`
+      guard("not notification")
+      |> notification(:off)
   """
  def notification(guard_struct, :auto) do
     guard_struct = %ExGuard.Guard{guard_struct | notification: :auto}
