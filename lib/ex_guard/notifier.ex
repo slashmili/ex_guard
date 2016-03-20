@@ -5,7 +5,8 @@ defmodule ExGuard.Notifier do
 
   @notifiers [
     ExGuard.Notifier.TerminalTitle,
-    ExGuard.Notifier.TerminalNotifier
+    ExGuard.Notifier.TerminalNotifier,
+    ExGuard.Notifier.NotifySend,
   ]
 
   @doc """
