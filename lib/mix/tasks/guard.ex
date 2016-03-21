@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Guard do
   add `ex_guard` to `mix.exs`
 
       def deps do
-        [{:ex_guard, "~> 0.9.0"}]
+        [{:ex_guard, "~> 0.10.0"}]
       end
 
 
