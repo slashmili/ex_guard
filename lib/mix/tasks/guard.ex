@@ -34,7 +34,7 @@ defmodule Mix.Tasks.Guard do
   Notify the result of execution through:
     * [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html)
     * [Terminal Notifier](https://github.com/julienXX/terminal-notifier) (mac only)
-    * [Notify Send](http://ss64.com/bash/notify-send.html) (linux distro)
+    * [Notify Send](http://ss64.com/bash/notify-send.html) (linux distros)
   """
 
   alias ExGuard.Config
