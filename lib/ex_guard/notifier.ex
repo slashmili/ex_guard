@@ -7,6 +7,7 @@ defmodule ExGuard.Notifier do
     ExGuard.Notifier.TerminalTitle,
     ExGuard.Notifier.TerminalNotifier,
     ExGuard.Notifier.NotifySend,
+    ExGuard.Notifier.TMux,
   ]
 
   @doc """
