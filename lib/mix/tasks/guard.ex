@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Guard do
   add `ex_guard` to `mix.exs`
 
       def deps do
-        [{:ex_guard, "~> 0.10.0", only: :dev}]
+        [{:ex_guard, "~> 1.0.0", only: :dev}]
       end
 
 
@@ -32,7 +32,8 @@ defmodule Mix.Tasks.Guard do
   ## Notifications
 
   Notify the result of execution through:
-    * [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html)
+    * [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html) (Xterm)
+    * [TMux](http://tmux.github.io/) (Universal)
     * [Terminal Notifier](https://github.com/julienXX/terminal-notifier) (mac only)
     * [Notify Send](http://ss64.com/bash/notify-send.html) (linux distros)
   """

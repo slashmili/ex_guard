@@ -11,9 +11,10 @@ defmodule ExGuard.Notifier.TerminalNotifier do
   end
 
   def available? do
-    case System.cmd("which", ["terminal-notifier"], stderr_to_stdout: true) do
+    available = case System.cmd("which", ["terminal-notifier"], stderr_to_stdout: true) do
       {_, 0} -> true
       {_, _} -> false
     end
+    available && System.get_env("TMUX") == nil
   end
 end
