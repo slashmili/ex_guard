@@ -28,9 +28,15 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
       guard("unit-test")
       |> command("mix test --color")
       |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
+      |> notification(:auto)
     ```
     Look at [ExGuardfile](https://github.com/slashmili/ex_guard/blob/master/ExGuardfile) for more fine-grained config
   3. run `mix guard` as soon as you change any file with above pattern, the test gets executed
 
-  
+## Notification
+Currently supports notification with tools:
+* [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html)
+* [Terminal Notifier](https://github.com/julienXX/terminal-notifier) (mac only)
+* [Notify Send](http://ss64.com/bash/notify-send.html) (linux distros)
 
+In order to _ExGuard_ sends notification, you need to make sure these tools are setup properly.
