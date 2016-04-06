@@ -18,7 +18,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
   1. Add ex_guard to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:ex_guard, "~> 0.10.0", only: :dev}]
+          [{:ex_guard, "~> 1.0.0", only: :dev}]
         end
 
   2. Create a file named `ExGuardfile` in your root application directory:
@@ -35,7 +35,8 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
 
 ## Notification
 Currently supports notification with tools:
-* [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html)
+* [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html) (Xterm)
+* [TMux](http://tmux.github.io/) (Universal)
 * [Terminal Notifier](https://github.com/julienXX/terminal-notifier) (mac only)
 * [Notify Send](http://ss64.com/bash/notify-send.html) (linux distros)
 
