@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Guard do
   ExGuard automates various tasks by running custom rules whenever file or directories are modified.
 
   ## Usage
-      usage: mix guard [--config=ExGuardfile]
+      usage: mix guard [--config=.exguard.exs]
       help: mix help guard
 
   ## Installation
@@ -17,7 +17,7 @@ defmodule Mix.Tasks.Guard do
 
   ## Sample config file
 
-  Create ExGuardfile in your root mix directory:
+  Create .exguard.exs in your root mix directory:
       use ExGuard.Config
 
       guard("unit-test")
@@ -43,7 +43,7 @@ defmodule Mix.Tasks.Guard do
   def run(args) do
     case OptionParser.parse(args) do
       {[config: config_file], _, _} -> execute(config_file)
-      {[], [], []} -> execute("ExGuardfile")
+      {[], [], []} -> execute(get_config_file)
       _ ->
         IO.puts "invalid option, try 'mix help guard'"
         System.halt(1)
@@ -62,6 +62,13 @@ defmodule Mix.Tasks.Guard do
 
     IO.puts "ExGuard is watching your back ..."
     :timer.sleep :infinity
+  end
+
+  defp get_config_file do
+    case File.exists?("ExGuardfile") do
+      true -> "ExGuardfile"
+      _ -> ".exguard.exs"
+    end
   end
 
 end
