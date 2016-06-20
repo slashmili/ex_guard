@@ -50,6 +50,11 @@ defmodule Mix.Tasks.Guard do
     end
   end
 
+  def execute(:no_config_file) do
+    IO.puts "Error: No config file was found, try 'mix help guard' for some example"
+    System.halt(1)
+  end
+
   def execute(config_file) do
     Config.start_link
     ExGuard.start_link
@@ -65,10 +70,10 @@ defmodule Mix.Tasks.Guard do
   end
 
   defp get_config_file do
-    case File.exists?("ExGuardfile") do
-      true -> "ExGuardfile"
-      _ -> ".exguard.exs"
+    cond do
+      File.exists?(".exguard.exs") -> ".exguard.exs"
+      File.exists?("ExGuardfile") -> "ExGuardfile"
+      true -> :no_config_file
     end
   end
-
 end
