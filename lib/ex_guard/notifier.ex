@@ -45,6 +45,6 @@ defmodule ExGuard.Notifier do
   end
 
   defp base_dir do
-    "#{__DIR__}/../.."
+    Application.app_dir(:ex_guard)
   end
 end
