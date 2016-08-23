@@ -18,7 +18,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
   1. Add ex_guard to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:ex_guard, "~> 1.1.0", only: :dev}]
+          [{:ex_guard, "~> 1.1.1", only: :dev}]
         end
 
   2. Create a file named `.exguard.exs` in your root application directory:
