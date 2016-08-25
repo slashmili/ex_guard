@@ -23,12 +23,12 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
 
   2. Create a file named `.exguard.exs` in your root application directory:
     ```elixir
-      use ExGuard.Config
+    use ExGuard.Config
 
-      guard("unit-test")
-      |> command("mix test --color")
-      |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
-      |> notification(:auto)
+    guard("unit-test")
+    |> command("mix test --color")
+    |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
+    |> notification(:auto)
     ```
     Look at [.exguard.exs](https://github.com/slashmili/ex_guard/blob/master/.exguard.exs) for more fine-grained config
   3. run `mix guard` as soon as you change any file with above pattern, the test gets executed
