@@ -41,7 +41,7 @@ defmodule ExGuard.Notifier do
   end
 
   defp get_icon do
-    "#{base_dir}/priv/icons/Guard.icns"
+    "#{base_dir()}/priv/icons/Guard.icns"
   end
 
   defp base_dir do
