@@ -1,7 +1,7 @@
 defmodule ExGuard.Mixfile do
   use Mix.Project
 
-  @version "1.1.1"
+  @version "1.2.0"
 
   def project do
     [app: :ex_guard,
@@ -25,8 +25,7 @@ defmodule ExGuard.Mixfile do
   defp deps do
     [{:fs, "~> 0.9"},
      {:ex_doc, "~> 0.11.4", only: :dev},
-     {:earmark, "~> 0.2.1", only: :dev},
-     {:credo, "~> 0.3", only: [:dev, :test]}]
+     {:earmark, "~> 0.2.1", only: :dev}]
   end
 
   defp package do
@@ -34,7 +33,7 @@ defmodule ExGuard.Mixfile do
      licenses: ["MIT"],
      links: %{github: "https://github.com/slashmili/ex_guard"},
      files: ~w(lib priv LICENSE mix.exs logo-white.png) ++
-            ~w(brunch-config.js CHANGELOG.md LICENSE.md mix.exs package.json README.md)]
+            ~w(mix.exs README.md)]
   end
 
   defp description do
