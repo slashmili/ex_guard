@@ -15,13 +15,16 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
 
 ## Usage
 
-  1. Add ex_guard to your list of dependencies in `mix.exs`:
+1. Add `ex_guard` to your list of dependencies in `mix.exs`:
 
-        def deps do
-          [{:ex_guard, "~> 1.2", only: :dev}]
-        end
+    ```elixir
+    def deps do
+      [{:ex_guard, "~> 1.2", only: :dev}]
+    end
+    ```
 
-  2. Create a file named `.exguard.exs` in your root application directory:
+2. Create a file named `.exguard.exs` in your root application directory:
+
     ```elixir
     use ExGuard.Config
 
@@ -30,11 +33,15 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
     |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
     |> notification(:auto)
     ```
-    Look at [.exguard.exs](https://github.com/slashmili/ex_guard/blob/master/.exguard.exs) for more fine-grained config
-  3. run `mix guard` as soon as you change any file with above pattern, the test gets executed
+
+    Look at [.exguard.exs](https://github.com/slashmili/ex_guard/blob/master/.exguard.exs) for more fine-grained config.
+
+3. Run `mix guard` as soon as you change any file with above pattern, the test gets executed
 
 ## Notification
+
 Currently supports notification with tools:
+
 * [Terminal Title](http://tldp.org/HOWTO/Xterm-Title-3.html) (Xterm)
 * [TMux](http://tmux.github.io/) (Universal)
 * [Terminal Notifier](https://github.com/julienXX/terminal-notifier) (mac only)
