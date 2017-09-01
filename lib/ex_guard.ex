@@ -26,7 +26,7 @@ defmodule ExGuard do
   @doc """
   Executes on file changes
   """
-  def handle_info({_pid, {:fs, :file_event}, {path, event}}, state) do
+  def handle_info({_pid, {:fs, :file_event}, {path, _event}}, state) do
     matched? =  path
                 |> to_string
                 |> Config.match_guards
