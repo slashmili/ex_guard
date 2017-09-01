@@ -19,7 +19,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
 
     ```elixir
     def deps do
-      [{:ex_guard, "~> 1.2", only: :dev}]
+      [{:ex_guard, "~> 1.3", only: :dev}]
     end
     ```
 
@@ -31,6 +31,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
     guard("unit-test")
     |> command("mix test --color")
     |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
+    |> ignore(~r{deps})
     |> notification(:auto)
     ```
 
