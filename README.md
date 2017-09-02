@@ -49,3 +49,27 @@ Currently supports notification with tools:
 * [Notify Send](http://ss64.com/bash/notify-send.html) (linux distros)
 
 In order to _ExGuard_ sends notification, you need to make sure these tools are setup properly.
+
+If you are using _ExGuard_ mainly for Elixir test you may turn the notification off and use [ExUnit Notifier](https://github.com/navinpeiris/ex_unit_notifier) instead.
+
+## Why ExGuard and not mix-test.watch or eye_drops or XYZ
+
+It's just a matter of taste!
+
+With _ExGuard_ you can run multiple commands and the config looks nice.
+
+```elixir
+use ExGuard.Config
+
+guard("elixir test", run_on_start: true)
+|> command("mix test --color")
+|> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
+|> ignore(~r{deps})
+|> notification(:off)
+
+guard("elm test", run_on_start: true)
+|> command("elm-test assets/tests/")
+|> watch(~r{\.(elm)\z}i)
+|> ignore(~r{elm-stuff})
+|> notification(:on)
+```
