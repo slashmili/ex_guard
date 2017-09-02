@@ -71,5 +71,5 @@ guard("elm test", run_on_start: true)
 |> command("elm-test assets/tests/")
 |> watch(~r{\.(elm)\z}i)
 |> ignore(~r{elm-stuff})
-|> notification(:on)
+|> notification(:auto)
 ```
