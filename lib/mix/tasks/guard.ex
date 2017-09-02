@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.Guard do
-  @moduledoc """
+  @moduledoc ~S"""
   ExGuard automates various tasks by running custom rules whenever file or directories are modified.
 
   ## Usage
@@ -22,6 +22,9 @@ defmodule Mix.Tasks.Guard do
 
       guard("unit-test")
       |> command("mix test --color")
+      #config that match specific files:
+      |> watch({~r{lib/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#{m["dir"]}/#{m["file"]}_test.exs" end})
+      #if a file doesn't match with above pattern, this below pattern will be tested and applied
       |> watch(~r{\\.(erl|ex|exs|eex|xrl|yrl)\\z}i)
       |> ignore(~r/priv/)
 
