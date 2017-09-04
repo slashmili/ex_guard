@@ -35,7 +35,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
     |> notification(:auto)
     ```
 
-    Look at [.exguard.exs](https://github.com/slashmili/ex_guard/blob/master/.exguard.exs) for more fine-grained config.
+    Look at below sample file for more fine-grained config.
 
 3. Run `mix guard` as soon as you change any file with above pattern, the test gets executed
 
@@ -63,6 +63,9 @@ use ExGuard.Config
 
 guard("elixir test", run_on_start: true)
 |> command("mix test --color")
+#only run related phoenix test when a file changes
+|> watch({~r{lib/(?<lib_dir>.+_web)/(?<dir>.+)/(?<file>.+).ex$}i, fn m -> "test/#{m["lib_dir"]}/#{m["dir"]}/#{m["file"]}_test.exs" end})
+# only if the above pattern doesn't match try to match all elixir/erlang source 
 |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
 |> ignore(~r{deps})
 |> notification(:off)
