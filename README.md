@@ -68,7 +68,7 @@ guard("elixir test", run_on_start: true)
 # only if the above pattern doesn't match try to match all elixir/erlang source 
 |> watch(~r{\.(erl|ex|exs|eex|xrl|yrl)\z}i)
 |> ignore(~r{deps})
-|> notification(:off)
+|> notification(:off) #Disabled it and using ex_unit_notifier instead
 
 guard("elm test", run_on_start: true)
 |> command("elm-test assets/tests/")
