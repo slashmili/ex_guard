@@ -1,6 +1,6 @@
 # ExGuard
 
-ExGuard is a mix command to handle events on file system modifications, ExGuard heavily borrowed ideas/art works from [Guard](https://github.com/guard/guard)
+ExGuard is a mix command to handle events on file system modifications, ExGuard heavily borrowed ideas/art works from [Ruby Guard](https://github.com/guard/guard)
 
 ![ExGuard](https://github.com/slashmili/ex_guard/raw/master/logo.png)
 
