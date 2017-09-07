@@ -6,7 +6,7 @@ defmodule ExGuard.Mixfile do
   def project do
     [app: :ex_guard,
      version: @version,
-     elixir: "~> 1.0",
+     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
