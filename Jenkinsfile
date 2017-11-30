@@ -2,12 +2,11 @@ pipeline {
   agent {
     docker {
       image 'elixir'
-      args 'mix do deps.get, test'
     }
     
   }
   stages {
-    stage('') {
+    stage('error') {
       steps {
         sh '''mix deps.get
 mix test'''
