@@ -8,7 +8,8 @@ pipeline {
   stages {
     stage('error') {
       steps {
-        sh '''mix deps.get
+        sh '''mix local.hex --force
+mix deps.get
 mix test'''
       }
     }
