@@ -3,7 +3,7 @@ defmodule ExGuard.ConfigTest do
   use ExGuard.Config
 
   setup do
-    {:ok, _pid} = ExGuard.Config.start_link
+    {:ok, _pid} = ExGuard.Config.start_link()
     :ok
   end
 
@@ -14,7 +14,13 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "add extra settings" do
-    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/foo/, ~r/bar/], ignore: [~r/foo/]}
+    guard_struct = %ExGuard.Guard{
+      title: "foobar",
+      cmd: "mix test",
+      watch: [~r/foo/, ~r/bar/],
+      ignore: [~r/foo/]
+    }
+
     guard("foobar")
     |> command("mix test")
     |> watch(~r/foo/)
@@ -25,8 +31,9 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "add tuple watch " do
-    watch_file = {~r/foo/, fn(m) -> "test/foo#{m[1]}" end}
+    watch_file = {~r/foo/, fn m -> "test/foo#{m[1]}" end}
     guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [watch_file]}
+
     guard("foobar")
     |> command("mix test")
     |> watch(watch_file)
@@ -35,7 +42,13 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "match a path" do
-    guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [~r/test\/*.exs$/], notification: :off}
+    guard_struct = %ExGuard.Guard{
+      title: "foobar",
+      cmd: "mix test",
+      watch: [~r/test\/*.exs$/],
+      notification: :off
+    }
+
     guard("foobar")
     |> command("mix test")
     |> watch(~r/test\/*.exs$/)
@@ -46,8 +59,11 @@ defmodule ExGuard.ConfigTest do
   end
 
   test "watch web dir in a phoenix project" do
-    watch_phoenix = {~r{web/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#{m["dir"]}/#{m["file"]}_test.exs" end}
+    watch_phoenix =
+      {~r{web/(?<dir>.+)/(?<file>.+).ex$}, fn m -> "test/#{m["dir"]}/#{m["file"]}_test.exs" end}
+
     guard_struct = %ExGuard.Guard{title: "foobar", cmd: "mix test", watch: [watch_phoenix]}
+
     guard("foobar")
     |> command("mix test")
     |> watch(watch_phoenix)
@@ -92,14 +108,23 @@ defmodule ExGuard.ConfigTest do
     |> watch(~r/test\/*.exs$/)
     |> ignore(~r/ignored_dir/)
 
-    guards = ExGuard.Config.match_guards("/home/milad/dev/ex_guard/test/ex_guard/ignored_dir/config_test.exs")
+    guards =
+      ExGuard.Config.match_guards(
+        "/home/milad/dev/ex_guard/test/ex_guard/ignored_dir/config_test.exs"
+      )
+
     assert guards == []
   end
 
   test "loading a ExGuardfile" do
     ExGuard.Config.load("test/sample_ExGuardfile")
 
-    guard_struct = %ExGuard.Guard{title: "unit-test", cmd: "mix test --color", watch: [~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i], notification: :auto}
+    guard_struct = %ExGuard.Guard{
+      title: "unit-test",
+      cmd: "mix test --color",
+      watch: [~r/\.(erl|ex|exs|eex|xrl|yrl)\z/i],
+      notification: :auto
+    }
 
     assert ExGuard.Config.get_guard("unit-test") == guard_struct
   end

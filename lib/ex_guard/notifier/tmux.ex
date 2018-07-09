@@ -3,7 +3,7 @@ defmodule ExGuard.Notifier.TMux do
   def notify(opts) do
     opts
     |> prepare_cmd
-    |> Mix.Shell.IO.cmd
+    |> Mix.Shell.IO.cmd()
   end
 
   def prepare_cmd(opts) do

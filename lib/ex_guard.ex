@@ -12,14 +12,14 @@ defmodule ExGuard do
 
   @doc false
   def start_link do
-    :ok  = Application.start :fs, :permanent
+    :ok = Application.start(:fs, :permanent)
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   @doc false
   def init(_) do
     :erlang.send_after(2000, self(), :handle_file_changes)
-    :ok = :fs.subscribe
+    :ok = :fs.subscribe()
     {:ok, %ExGuard{}}
   end
 
@@ -27,29 +27,34 @@ defmodule ExGuard do
   Executes on file changes
   """
   def handle_info({_pid, {:fs, :file_event}, {path, _event}}, state) do
-    matched? =  path
-                |> to_string
-                |> Config.match_guards
-    changed_files = if matched? == [] do
-      state.changed_files
-    else
-      Enum.uniq(state.changed_files ++ [to_string(path)])
-    end
-    {:noreply, %{state| changed_files: changed_files}}
+    matched? =
+      path
+      |> to_string
+      |> Config.match_guards()
+
+    changed_files =
+      if matched? == [] do
+        state.changed_files
+      else
+        Enum.uniq(state.changed_files ++ [to_string(path)])
+      end
+
+    {:noreply, %{state | changed_files: changed_files}}
   end
 
   @doc false
   def handle_info(:handle_file_changes, state) do
     case state.changed_files do
-      [] -> :noop
+      [] ->
+        :noop
+
       changed_files ->
         changed_files
         |> Enum.map(&Config.match_guards/1)
-        |> List.flatten
-        |> Enum.uniq
+        |> List.flatten()
+        |> Enum.uniq()
         |> execute_guards
     end
-
 
     :erlang.send_after(2000, self(), :handle_file_changes)
     {:noreply, %{state | changed_files: []}}

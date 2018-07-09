@@ -7,7 +7,7 @@ defmodule ExGuard.Notifier do
     ExGuard.Notifier.TerminalTitle,
     ExGuard.Notifier.TerminalNotifier,
     ExGuard.Notifier.NotifySend,
-    ExGuard.Notifier.TMux,
+    ExGuard.Notifier.TMux
   ]
 
   @doc """
@@ -21,13 +21,15 @@ defmodule ExGuard.Notifier do
     - `:pending`
   """
   def notify(opts) do
-    opts = opts
+    opts =
+      opts
       |> Keyword.put(:content_image, content_image(opts[:status]))
       |> Keyword.put(:icon, get_icon())
 
     @notifiers
-    |> Enum.filter(fn (n) -> apply(n, :available?, []) end)
-    |> Enum.each(fn (n) -> apply(n, :notify, [opts]) end)
+    |> Enum.filter(fn n -> apply(n, :available?, []) end)
+    |> Enum.each(fn n -> apply(n, :notify, [opts]) end)
+
     :ok
   end
 

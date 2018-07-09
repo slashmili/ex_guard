@@ -10,8 +10,7 @@ defmodule ExGuard.Guard do
 
   alias ExGuard.Notifier
   alias ExGuard.Config
-  defstruct  title: "", cmd: "", watch: [],
-             notification: :auto, ignore: [], options: []
+  defstruct title: "", cmd: "", watch: [], notification: :auto, ignore: [], options: []
 
   @doc """
   Creates ExGuard config.
@@ -78,15 +77,15 @@ defmodule ExGuard.Guard do
       guard("not notification")
       |> notification(:off)
   """
- def notification(guard_struct, :auto) do
+  def notification(guard_struct, :auto) do
     guard_struct = %ExGuard.Guard{guard_struct | notification: :auto}
     Config.put_guard(guard_struct.title, guard_struct)
   end
+
   def notification(guard_struct, :off) do
     guard_struct = %ExGuard.Guard{guard_struct | notification: :off}
     Config.put_guard(guard_struct.title, guard_struct)
   end
-
 
   @doc """
   Executes the command for a guard config.
@@ -96,12 +95,14 @@ defmodule ExGuard.Guard do
   def execute({guard_config, files}) do
     arg = Enum.join(files, " ")
     cmd = String.trim("#{guard_config.cmd} #{arg}")
-    IO.puts "ex_guard is executing #{cmd}"
+    IO.puts("ex_guard is executing #{cmd}")
+
     case Mix.Shell.IO.cmd(cmd) do
       0 -> {:ok, 0, "", guard_config}
-      status -> {:error, status , "", guard_config}
+      status -> {:error, status, "", guard_config}
     end
   end
+
   def execute(guard_config) do
     execute({guard_config, []})
   end
@@ -112,16 +113,20 @@ defmodule ExGuard.Guard do
   def notify({_, _, _, %ExGuard.Guard{notification: :off}}) do
     :off
   end
+
   def notify({:ok, _status_code, _message, %ExGuard.Guard{notification: :auto} = guard_config}) do
     Notifier.notify(
       title: guard_config.title,
       message: "successfully executed",
-      status: :ok)
+      status: :ok
+    )
   end
+
   def notify({:error, _status_code, _message, %ExGuard.Guard{notification: :auto} = guard_config}) do
     Notifier.notify(
       title: guard_config.title,
       message: "failed to execute",
-      status: :error)
+      status: :error
+    )
   end
 end

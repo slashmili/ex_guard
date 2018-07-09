@@ -17,7 +17,7 @@ defmodule ExGuard.Notifier.TMuxTest do
   test "tmux shouln't be available out of tmux session" do
     tmux_val = System.get_env("TMUX")
     if tmux_val, do: System.delete_env("TMUX")
-    assert TMux.available? == false
+    assert TMux.available?() == false
     if tmux_val, do: System.put_env("TMUX", tmux_val)
   end
 
@@ -25,7 +25,7 @@ defmodule ExGuard.Notifier.TMuxTest do
     tmux_val = System.get_env("TMUX")
     if tmux_val, do: System.delete_env("TMUX")
     System.put_env("TMUX", "VAL")
-    assert TMux.available? == true
+    assert TMux.available?() == true
     if tmux_val, do: System.put_env("TMUX", tmux_val)
   end
 end
