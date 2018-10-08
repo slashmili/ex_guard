@@ -44,7 +44,7 @@ defmodule Mix.Tasks.Guard do
   alias ExGuard.Config
 
   def run(args) do
-    case OptionParser.parse(args) do
+    case OptionParser.parse(args, switches: []) do
       {[config: config_file], _, _} ->
         execute(config_file)
 
