@@ -93,6 +93,14 @@ defmodule ExGuard.Guard do
   If files is a list, append them to guard.cmd and executes it.
   """
   def execute({guard_config, files}) do
+    umbrella_app? = Keyword.get(guard_config.options, :umbrella_app, false)
+    files = if umbrella_app? do
+      Enum.map(files, fn path ->
+        String.replace(path, ~r{^apps/[a-zA-z_]+/}, "")
+      end)
+    else
+      files
+    end
     arg = Enum.join(files, " ")
     cmd = String.trim("#{guard_config.cmd} #{arg}")
     IO.puts("ex_guard is executing #{cmd}")
