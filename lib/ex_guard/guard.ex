@@ -17,9 +17,12 @@ defmodule ExGuard.Guard do
 
       guard("test")
 
-  If you want to run the command on start set `:run_on_start` option
+  Options:
 
-      guard("test", run_on_start: true)
+    * `:run_on_start`, set this option If you want to run the command when `mix guard` has been executed
+    * `:umbrella_app`, set this option If you are running guard on the main directory of an umbrella project and using `watch` command to match changed filed with test
+
+      guard("test", run_on_start: true, umbrella_app: true)
   """
   def guard(title, opts \\ []) do
     guard_struct = %ExGuard.Guard{title: title, options: opts}
@@ -94,13 +97,16 @@ defmodule ExGuard.Guard do
   """
   def execute({guard_config, files}) do
     umbrella_app? = Keyword.get(guard_config.options, :umbrella_app, false)
-    files = if umbrella_app? do
-      Enum.map(files, fn path ->
-        String.replace(path, ~r{^apps/[a-zA-z_]+/}, "")
-      end)
-    else
-      files
-    end
+
+    files =
+      if umbrella_app? do
+        Enum.map(files, fn path ->
+          String.replace(path, ~r{^apps/[a-zA-z_]+/}, "")
+        end)
+      else
+        files
+      end
+
     arg = Enum.join(files, " ")
     cmd = String.trim("#{guard_config.cmd} #{arg}")
     IO.puts("ex_guard is executing #{cmd}")
