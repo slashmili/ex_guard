@@ -1,3 +1,11 @@
+## [1.4.0]
+### Changed
+- strip `app/my_app` from file if configured with `umbrella_app: true`
+
+## [1.3.3]
+### Fixed
+- Compiler warnings for Elixir 1.7
+
 ## [1.3.2]
 ### Removed
 - Support for Elixir <= 1.2
