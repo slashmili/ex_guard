@@ -13,7 +13,7 @@ defmodule ExGuard.Config do
   Loads ExGuard config file
   """
   def load(config_file) do
-    Code.load_file(config_file)
+    Code.require_file(config_file)
   end
 
   @doc """
