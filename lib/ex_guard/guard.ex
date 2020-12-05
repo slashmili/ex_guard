@@ -109,7 +109,7 @@ defmodule ExGuard.Guard do
 
     arg = Enum.join(files, " ")
     cmd = String.trim("#{guard_config.cmd} #{arg}")
-    IO.puts("ex_guard is executing #{cmd}")
+    Mix.Shell.IO.info("ex_guard is executing #{guard_config.title}")
 
     case Mix.Shell.IO.cmd(cmd) do
       0 -> {:ok, 0, "", guard_config}

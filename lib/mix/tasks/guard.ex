@@ -45,11 +45,11 @@ defmodule Mix.Tasks.Guard do
 
   def run(args) do
     case OptionParser.parse(args, switches: []) do
-      {[config: config_file], _, _} ->
-        execute(config_file)
+      {[config: config_file], guard_titles, []} ->
+        execute(config_file, guard_titles)
 
-      {[], [], []} ->
-        execute(get_config_file())
+      {[], guard_titles, []} ->
+        execute(get_config_file(), guard_titles)
 
       _ ->
         IO.puts("invalid option, try 'mix help guard'")
@@ -57,17 +57,29 @@ defmodule Mix.Tasks.Guard do
     end
   end
 
-  def execute(config_file) do
+  defp execute(config_file, guard_titles) do
     Config.start_link()
     ExGuard.start_link()
 
     Config.load(config_file)
 
-    Config.get_guards()
+    case guard_titles do
+      [] ->
+        Config.get_guards()
+
+      titles ->
+        titles
+        |> Enum.map(fn g ->
+          case Config.get_guard(g) do
+            nil -> exit_with_error(g)
+            x -> x
+          end
+        end)
+    end
     |> Enum.filter(fn g -> g.options[:run_on_start] end)
     |> ExGuard.execute_guards()
 
-    IO.puts("ExGuard is watching your back ...")
+    Mix.Shell.IO.info("ExGuard is watching your back ...")
     :timer.sleep(:infinity)
   end
 
@@ -76,5 +88,10 @@ defmodule Mix.Tasks.Guard do
       true -> "ExGuardfile"
       _ -> ".exguard.exs"
     end
+  end
+
+  defp exit_with_error(title) do
+    Mix.Shell.IO.error("error: inexistent guard #{title}")
+    exit({:shutdown, 1})
   end
 end
