@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Guard do
   ExGuard automates various tasks by running custom rules whenever file or directories are modified.
 
   ## Usage
-      usage: mix guard [--config=.exguard.exs]
+      usage: mix guard [--config=.exguard.exs] [guard titles...]
       help: mix help guard
 
   ## Installation
@@ -29,6 +29,8 @@ defmodule Mix.Tasks.Guard do
       |> ignore(~r/priv/)
 
   Run `mix guard` and happy coding.
+
+  You can run `mix guard unit-test` to run the specific guard.
 
   [Check out here for more fine-grained configs](https://hexdocs.pm/ex_guard/ExGuard.Guard.html).
 
@@ -62,20 +64,16 @@ defmodule Mix.Tasks.Guard do
     ExGuard.start_link()
 
     Config.load(config_file)
-
-    case guard_titles do
-      [] ->
-        Config.get_guards()
-
-      titles ->
-        titles
-        |> Enum.map(fn g ->
-          case Config.get_guard(g) do
-            nil -> exit_with_error(g)
-            x -> x
-          end
-        end)
-    end
+    Config.get_guards()
+    |> Enum.reject(fn g ->
+      with false <- Enum.empty?(guard_titles),
+           false <- Enum.any?(guard_titles, &(&1 == g.title)) do
+        Config.remove_guard(g.title)
+        true
+      else
+        _ -> false
+      end
+    end)
     |> Enum.filter(fn g -> g.options[:run_on_start] end)
     |> ExGuard.execute_guards()
 
@@ -88,10 +86,5 @@ defmodule Mix.Tasks.Guard do
       true -> "ExGuardfile"
       _ -> ".exguard.exs"
     end
-  end
-
-  defp exit_with_error(title) do
-    Mix.Shell.IO.error("error: inexistent guard #{title}")
-    exit({:shutdown, 1})
   end
 end

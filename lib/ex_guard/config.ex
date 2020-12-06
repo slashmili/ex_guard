@@ -42,6 +42,10 @@ defmodule ExGuard.Config do
     Agent.get(__MODULE__, &Keyword.values(&1))
   end
 
+  def remove_guard(title) do
+    Agent.update(__MODULE__, &Keyword.delete(&1, String.to_atom(title)))
+  end
+
   @doc """
   Given the path, returns matched guard configs.
 
