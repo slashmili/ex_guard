@@ -1,7 +1,7 @@
 defmodule ExGuard.Mixfile do
   use Mix.Project
 
-  @version "1.4.0"
+  @version "1.5.0"
 
   def project do
     [
@@ -24,7 +24,11 @@ defmodule ExGuard.Mixfile do
   end
 
   defp deps do
-    [{:fs, "~> 0.9"}, {:ex_doc, "~> 0.19.1", only: :dev}, {:earmark, "~> 1.2.0", only: :dev}]
+    [
+      {:fs, "~> 6.9"},
+      {:ex_doc, "~> 0.23.0", only: :dev},
+      {:earmark, "~> 1.4.12", only: :dev}
+    ]
   end
 
   defp package do

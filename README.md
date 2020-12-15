@@ -19,7 +19,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
 
     ```elixir
     def deps do
-      [{:ex_guard, "~> 1.3", only: :dev}]
+      [{:ex_guard, "~> 1.5", only: :dev}]
     end
     ```
 
