@@ -7,7 +7,11 @@ defmodule ExGuard.Notifier.TMux do
   end
 
   def prepare_cmd(opts) do
-    "tmux set -q status-left-bg #{get_color(opts[:status])}"
+    title = opts[:title] || "ExGuard"
+    message = opts[:message]
+    status = opts[:status]
+    color = status |> get_color()
+    "tmux display-message '#[fill=#{color} bg=#{color}]#{title} - #{message}'; tmux set -g pane-active-border fg=#{color}"
   end
 
   def available? do
