@@ -1,23 +1,42 @@
+name: Elixir CI
 on:
   push:
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+
+env:
+  ELIXIR_VERSION: 1.15.1
+  ERLANG_VERSION: 26.0.1
+
+permissions:
+  contents: read
 
 jobs:
   test:
-    runs-on: ${{ matrix.os}}
-    name: ${{ matrix.os}} - OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    strategy:
-      matrix:
-        otp: ['22.3', '23.1']
-        elixir: ['1.9', '1.10', '1.11']
-        os: ['ubuntu-latest']
+    runs-on: ubuntu-latest
+    name: Unit Test
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-elixir@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - run: mix deps.get
-      - run: mix test
+    # Step: Setup Elixir + Erlang image as the base.
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ env.ERLANG_VERSION }}
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+
+    # Step: Check out the code.
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: mix deps.get
+
+    - name: Compiles without warnings
+      run: mix compile --warnings-as-errors
+
+    - name: Check Formatting
+      run: mix format --check-formatted
+
+    # Step: Execute the tests.
+    - name: Run tests
+      run: mix test
