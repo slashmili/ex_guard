@@ -5,13 +5,19 @@ defmodule ExGuard.Notifier.TMuxTest do
 
   test "prepare TerminalNotifier command" do
     command = TMux.prepare_cmd(title: "unit test", message: "boo", status: :ok)
-    assert command == ~s(tmux set -q status-left-bg green)
+
+    assert command ==
+             ~s(tmux display-message '#[fill=green bg=green]unit test - boo'; tmux set -g pane-active-border fg=green)
 
     command = TMux.prepare_cmd(title: "unit test", message: "boo", status: :error)
-    assert command == ~s(tmux set -q status-left-bg red)
+
+    assert command ==
+             ~s(tmux display-message '#[fill=red bg=red]unit test - boo'; tmux set -g pane-active-border fg=red)
 
     command = TMux.prepare_cmd(title: "unit test", message: "boo", status: :pending)
-    assert command == ~s(tmux set -q status-left-bg yellow)
+
+    assert command ==
+             ~s(tmux display-message '#[fill=yellow bg=yellow]unit test - boo'; tmux set -g pane-active-border fg=yellow)
   end
 
   test "tmux shouln't be available out of tmux session" do
