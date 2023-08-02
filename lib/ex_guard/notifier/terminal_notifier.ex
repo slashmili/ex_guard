@@ -7,9 +7,7 @@ defmodule ExGuard.Notifier.TerminalNotifier do
   end
 
   def prepare_cmd(opts) do
-    "terminal-notifier -title \"#{opts[:title]}\" -message \"#{opts[:message]}\" -appIcon #{
-      opts[:icon]
-    } -contentImage #{opts[:content_image]}"
+    "terminal-notifier -title \"#{opts[:title]}\" -message \"#{opts[:message]}\" -appIcon #{opts[:icon]} -contentImage #{opts[:content_image]}"
   end
 
   def available? do

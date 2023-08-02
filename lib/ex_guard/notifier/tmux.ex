@@ -11,6 +11,7 @@ defmodule ExGuard.Notifier.TMux do
     message = opts[:message]
     status = opts[:status]
     color = status |> get_color()
+
     "tmux display-message '#[fill=#{color} bg=#{color}]#{title} - #{message}'; tmux set -g pane-active-border fg=#{color}"
   end
 
