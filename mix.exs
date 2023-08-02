@@ -14,7 +14,7 @@ defmodule ExGuard.Mixfile do
       package: package(),
       description: description(),
       name: "ExGuard",
-      docs: [source_ref: "#{@version}", main: "Mix.Tasks.Guard", logo: "logo-white.png"],
+      docs: [source_ref: "v#{@version}", main: "Mix.Tasks.Guard", logo: "logo-white.png"],
       source_url: "https://github.com/slashmili/ex_guard"
     ]
   end
