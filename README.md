@@ -5,7 +5,7 @@ ExGuard is a mix command to handle events on file system modifications, ExGuard 
 ![ExGuard](https://github.com/slashmili/ex_guard/raw/master/logo.png)
 
 
-[![Build Status](https://travis-ci.org/slashmili/ex_guard.svg?branch=master)](https://travis-ci.org/slashmili/ex_guard)
+[![Build Status](https://github.com/slashmili/ex_guard/actions/workflows/test.yml/badge.svg)](https://github.com/slashmili/ex_guard/actions)
 [![Hex.pm](https://img.shields.io/hexpm/v/ex_guard.svg)](https://hex.pm/packages/ex_guard)
 [![Docs](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://hexdocs.pm/ex_guard/)
 [![Hex.pm](https://img.shields.io/hexpm/dt/ex_guard.svg)](https://hex.pm/packages/ex_guard)
