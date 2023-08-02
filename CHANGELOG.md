@@ -1,4 +1,4 @@
-## Ureleased
+## [1.6.0]
 ### Changed
 - Bumped dependency `fs` to version `8.6`
 - improved tmux notifier #51
