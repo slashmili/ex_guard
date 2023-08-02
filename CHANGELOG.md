@@ -1,3 +1,11 @@
+## [1.6.1]
+### Changed
+- Update docs and link to the source code
+- switch to github action
+### Add
+- Add mix formater to the project
+
+
 ## [1.6.0]
 ### Changed
 - Bumped dependency `fs` to version `8.6`
