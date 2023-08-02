@@ -1,3 +1,9 @@
+## Ureleased
+### Changed
+- Bumped dependency `fs` to version `8.6`
+- improved tmux notifier #51
+
+
 ## [1.5.0]
 ### Changed
 - Bumped dependency `fs` to version `6.9`
