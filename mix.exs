@@ -7,7 +7,7 @@ defmodule ExGuard.Mixfile do
     [
       app: :ex_guard,
       version: @version,
-      elixir: "~> 1.3",
+      elixir: "~> 1.16",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -25,9 +25,8 @@ defmodule ExGuard.Mixfile do
 
   defp deps do
     [
-      {:fs, "~> 8.6.1"},
-      {:ex_doc, "~> 0.31.0", only: :dev},
-      {:earmark, "~> 1.4.12", only: :dev}
+      {:fs, "~> 11.4"},
+      {:ex_doc, "~> 0.40", only: :dev}
     ]
   end
 
