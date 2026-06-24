@@ -1,3 +1,8 @@
+## [1.7.0]
+## Changed
+- increase min elixir requirment to 1.16
+- bump fs version to 11.4
+
 ## [1.6.1]
 ### Changed
 - Update docs and link to the source code

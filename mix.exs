@@ -1,7 +1,7 @@
 defmodule ExGuard.Mixfile do
   use Mix.Project
 
-  @version "1.6.1"
+  @version "1.7.0"
 
   def project do
     [
