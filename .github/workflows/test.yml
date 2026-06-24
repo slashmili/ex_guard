@@ -6,8 +6,8 @@ on:
     branches: [ "main" ]
 
 env:
-  ELIXIR_VERSION: 1.15.1
-  ERLANG_VERSION: 26.0.1
+  ELIXIR_VERSION: 1.20.1
+  ERLANG_VERSION: 29.0.2
 
 permissions:
   contents: read

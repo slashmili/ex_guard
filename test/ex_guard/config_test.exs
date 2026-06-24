@@ -27,7 +27,7 @@ defmodule ExGuard.ConfigTest do
     |> watch(~r/bar/)
     |> ignore(~r/foo/)
 
-    assert ExGuard.Config.get_guard("foobar") == guard_struct
+    assert_guard_equal(ExGuard.Config.get_guard("foobar"), guard_struct)
   end
 
   test "add tuple watch " do
@@ -38,7 +38,7 @@ defmodule ExGuard.ConfigTest do
     |> command("mix test")
     |> watch(watch_file)
 
-    assert ExGuard.Config.get_guard("foobar") == guard_struct
+    assert_guard_equal(ExGuard.Config.get_guard("foobar"), guard_struct)
   end
 
   test "match a path" do
@@ -55,7 +55,8 @@ defmodule ExGuard.ConfigTest do
     |> notification(:off)
 
     guards = ExGuard.Config.match_guards("/home/milad/dev/ex_guard/test/ex_guard/config_test.exs")
-    assert guards == [{guard_struct, []}]
+    assert [{guard, []}] = guards
+    assert_guard_equal(guard, guard_struct)
   end
 
   test "watch web dir in a phoenix project" do
@@ -69,7 +70,8 @@ defmodule ExGuard.ConfigTest do
     |> watch(watch_phoenix)
 
     guards = ExGuard.Config.match_guards("web/models/elink.ex")
-    assert guards == [{guard_struct, ["test/models/elink_test.exs"]}]
+    assert [{guard, ["test/models/elink_test.exs"]}] = guards
+    assert_guard_equal(guard, guard_struct)
   end
 
   test "doesn't match with path" do
@@ -126,6 +128,30 @@ defmodule ExGuard.ConfigTest do
       notification: :auto
     }
 
-    assert ExGuard.Config.get_guard("unit-test") == guard_struct
+    assert_guard_equal(ExGuard.Config.get_guard("unit-test"), guard_struct)
+  end
+
+  defp assert_guard_equal(actual, expected) do
+    assert normalize_guard(actual) == normalize_guard(expected)
+  end
+
+  defp normalize_guard(%ExGuard.Guard{} = guard) do
+    %ExGuard.Guard{
+      guard
+      | watch: Enum.map(guard.watch, &normalize_pattern/1),
+        ignore: Enum.map(guard.ignore, &normalize_pattern/1)
+    }
+  end
+
+  defp normalize_pattern({%Regex{} = regex, func}) when is_function(func) do
+    {normalize_pattern(regex), func}
+  end
+
+  defp normalize_pattern(%Regex{source: source, opts: opts}) do
+    {:regex, source, opts}
+  end
+
+  defp normalize_pattern(pattern) do
+    pattern
   end
 end
