@@ -35,7 +35,7 @@ defmodule ExGuard.Guard do
       guard("test")
       |> command("mix text --color")
   """
-  def command(guard_struct, cmd) do
+  def command(%ExGuard.Guard{} = guard_struct, cmd) do
     guard_struct = %ExGuard.Guard{guard_struct | cmd: cmd}
     Config.put_guard(guard_struct.title, guard_struct)
   end
@@ -51,7 +51,7 @@ defmodule ExGuard.Guard do
       guard("execute specific tests")
       |> watch({~r{lib/(?<dir>.+)/(?<file>.+).ex$}, fn(m) -> "test/#{m["dir"]}/#{m["file"]}_test.exs" end})
   """
-  def watch(guard_struct, pattern) do
+  def watch(%ExGuard.Guard{} = guard_struct, pattern) do
     cur_watch = guard_struct.watch ++ [pattern]
     guard_struct = %ExGuard.Guard{guard_struct | watch: cur_watch}
     Config.put_guard(guard_struct.title, guard_struct)
@@ -63,7 +63,7 @@ defmodule ExGuard.Guard do
       guard("text files")
       |> ignore(~r/\\.txt$/)
   """
-  def ignore(guard_struct, ignore_rule) do
+  def ignore(%ExGuard.Guard{} = guard_struct, ignore_rule) do
     cur_ignore_rule = guard_struct.ignore ++ [ignore_rule]
     guard_struct = %ExGuard.Guard{guard_struct | ignore: cur_ignore_rule}
     Config.put_guard(guard_struct.title, guard_struct)
@@ -80,12 +80,12 @@ defmodule ExGuard.Guard do
       guard("not notification")
       |> notification(:off)
   """
-  def notification(guard_struct, :auto) do
+  def notification(%ExGuard.Guard{} = guard_struct, :auto) do
     guard_struct = %ExGuard.Guard{guard_struct | notification: :auto}
     Config.put_guard(guard_struct.title, guard_struct)
   end
 
-  def notification(guard_struct, :off) do
+  def notification(%ExGuard.Guard{} = guard_struct, :off) do
     guard_struct = %ExGuard.Guard{guard_struct | notification: :off}
     Config.put_guard(guard_struct.title, guard_struct)
   end
