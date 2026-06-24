@@ -26,7 +26,7 @@ defmodule ExGuard.Mixfile do
   defp deps do
     [
       {:fs, "~> 11.4"},
-      {:ex_doc, "~> 0.40", only: :dev}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
